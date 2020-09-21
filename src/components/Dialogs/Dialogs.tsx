@@ -15,6 +15,7 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
 
     let dialogsElements = props.state.dialogs.map( (d) => <DialogItem name={d.name} id={d.id}/>)
+
     /*   [
            <DialogItem name={dialogs[0].name} id={dialogs[0].id}/>,
            <DialogItem name={dialogs[1].name} id={dialogs[1].id}/>,
