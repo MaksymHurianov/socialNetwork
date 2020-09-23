@@ -1,3 +1,6 @@
+const ADD_POST = "ADD-POST"
+const UPDATE_NEW_TEXT = 'UPDATE-NEW-TEXT'
+
 let store: StoreType ={
     _state: {
         profilePage: {
@@ -41,7 +44,7 @@ let store: StoreType ={
   
 
     dispatch(action:ActionsTypes){ // {type: 'ADD-POST'}
-        if(action.type === 'ADD-POST'){
+        if(action.type === ADD_POST){
             let newPost={
                 id: 5,
                 message: this._state.profilePage.newPostText,
@@ -50,12 +53,23 @@ let store: StoreType ={
             this._state.profilePage.posts.push(newPost)
             this._state.profilePage.newPostText=""
             this._rerenderEntireTree(this._state)
-        } else if(action.type === 'UPDATE-NEW-TEXT'){
+        } else if(action.type === UPDATE_NEW_TEXT){
             this._state.profilePage.newPostText= action.newText
             this._rerenderEntireTree(this._state)
         }
 
     }
+}
+
+export let addPostActionCreator = () => {
+
+    return {
+        type: ADD_POST
+    } as const
+}
+
+export let updateNewPostTextActionCreator = (text:string) =>{
+    return {type:UPDATE_NEW_TEXT, newText:text} as const
 }
 
 
@@ -92,15 +106,22 @@ export type RootStateType ={
     dialogsPage: DialogsPageType
 }
 
-type AddPostActionType = {
+/*type AddPostActionType = {
     type: 'ADD-POST'
-}
-type ChangeNewTextActionType = {
+}*/
+
+type AddPostActionType = ReturnType<typeof addPostActionCreator>
+
+type ChangeNewTextActionType = ReturnType<typeof updateNewPostTextActionCreator>
+
+/*type ChangeNewTextActionType = {
     type: 'UPDATE-NEW-TEXT',
     newText: string
-}
+}*/
 
 export type ActionsTypes = AddPostActionType | ChangeNewTextActionType
+
+
 
 export type StoreType={
     _state:RootStateType
