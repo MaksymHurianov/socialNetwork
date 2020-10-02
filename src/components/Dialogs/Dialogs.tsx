@@ -5,10 +5,11 @@ import Message from "./Message/Message";
 import {
     ActionsTypes,
     DialogsPageType,
-    sendMessageCreator,
+
     StoreType,
-    updateNewMessageBodyCreator
+
 } from "../../redux/state";
+import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
 
 
 type DialogsPropsType={

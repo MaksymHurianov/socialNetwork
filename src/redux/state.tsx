@@ -1,7 +1,11 @@
-const ADD_POST = "ADD-POST"
+import profileReducer, {addPostActionCreator, updateNewPostTextActionCreator} from "./profile-reducer";
+import dialogsReducer, {sendMessageCreator, updateNewMessageBodyCreator} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
+/*const ADD_POST = "ADD-POST"
 const UPDATE_NEW_TEXT = 'UPDATE-NEW-TEXT'
 const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
-const SEND_MESSAGE = "SEND-MESSAGE"
+const SEND_MESSAGE = "SEND-MESSAGE"*/
 
 let store: StoreType ={
     _state: {
@@ -33,7 +37,8 @@ let store: StoreType ={
             ],
             newMessageBody: ""
 
-        }
+        },
+        sidebar: {}
     },
     getState(){
         return this._state
@@ -48,7 +53,14 @@ let store: StoreType ={
   
 
     dispatch(action:ActionsTypes) { // {type: 'ADD-POST'}
-        if (action.type === ADD_POST) {
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        this._rerenderEntireTree(this._state)
+
+
+/*        if (action.type === ADD_POST) {
             let newPost = {
                 id: 5,
                 message: this._state.profilePage.newPostText,
@@ -68,12 +80,12 @@ let store: StoreType ={
             this._state.dialogsPage.newMessageBody = ""
             this._state.dialogsPage.messages.push({id:6, message:body})
             this._rerenderEntireTree(this._state)
-        }
+        }*/
 
     }
 }
 
-export let addPostActionCreator = () => {
+/*export let addPostActionCreator = () => {
     return {
         type: ADD_POST
     } as const
@@ -91,7 +103,7 @@ export let sendMessageCreator = () => {
 
 export let updateNewMessageBodyCreator = (body:string) =>{
     return {type:UPDATE_NEW_MESSAGE_BODY, body:body} as const
-}
+}*/
 
 
 
@@ -126,6 +138,7 @@ export type ProfilePageType={
 export type RootStateType ={
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+    sidebar:any
 
 }
 
