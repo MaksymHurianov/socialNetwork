@@ -1,5 +1,7 @@
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_TEXT = 'UPDATE-NEW-TEXT'
+const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
+const SEND_MESSAGE = "SEND-MESSAGE"
 
 let store: StoreType ={
     _state: {
@@ -28,7 +30,9 @@ let store: StoreType ={
                 {id: 4, name: "Sasha"},
                 {id: 5, name: "Victor"},
                 {id: 6, name: "Valera"}
-            ]
+            ],
+            newMessageBody: ""
+
         }
     },
     getState(){
@@ -43,18 +47,26 @@ let store: StoreType ={
 
   
 
-    dispatch(action:ActionsTypes){ // {type: 'ADD-POST'}
-        if(action.type === ADD_POST){
-            let newPost={
+    dispatch(action:ActionsTypes) { // {type: 'ADD-POST'}
+        if (action.type === ADD_POST) {
+            let newPost = {
                 id: 5,
                 message: this._state.profilePage.newPostText,
                 likeCounts: 0
             };
             this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText=""
+            this._state.profilePage.newPostText = ""
             this._rerenderEntireTree(this._state)
-        } else if(action.type === UPDATE_NEW_TEXT){
-            this._state.profilePage.newPostText= action.newText
+        } else if (action.type === UPDATE_NEW_TEXT) {
+            this._state.profilePage.newPostText = action.newText
+            this._rerenderEntireTree(this._state)
+        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+            this._state.dialogsPage.newMessageBody = action.body
+            this._rerenderEntireTree(this._state)
+        } else if (action.type === SEND_MESSAGE) {
+            let body = this._state.dialogsPage.newMessageBody
+            this._state.dialogsPage.newMessageBody = ""
+            this._state.dialogsPage.messages.push({id:6, message:body})
             this._rerenderEntireTree(this._state)
         }
 
@@ -62,7 +74,6 @@ let store: StoreType ={
 }
 
 export let addPostActionCreator = () => {
-
     return {
         type: ADD_POST
     } as const
@@ -70,6 +81,16 @@ export let addPostActionCreator = () => {
 
 export let updateNewPostTextActionCreator = (text:string) =>{
     return {type:UPDATE_NEW_TEXT, newText:text} as const
+}
+
+export let sendMessageCreator = () => {
+    return {
+        type: SEND_MESSAGE
+    } as const
+}
+
+export let updateNewMessageBodyCreator = (body:string) =>{
+    return {type:UPDATE_NEW_MESSAGE_BODY, body:body} as const
 }
 
 
@@ -94,6 +115,7 @@ export type PostType={
 export type DialogsPageType={
     messages: Array<MessageType>
     dialogs: Array<DialogType>
+    newMessageBody: string
 }
 
 export type ProfilePageType={
@@ -104,6 +126,7 @@ export type ProfilePageType={
 export type RootStateType ={
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+
 }
 
 /*type AddPostActionType = {
@@ -113,13 +136,16 @@ export type RootStateType ={
 type AddPostActionType = ReturnType<typeof addPostActionCreator>
 
 type ChangeNewTextActionType = ReturnType<typeof updateNewPostTextActionCreator>
+type sendMessageType = ReturnType<typeof sendMessageCreator>
+type updateNewMessageBodyType = ReturnType<typeof updateNewMessageBodyCreator>
+
 
 /*type ChangeNewTextActionType = {
     type: 'UPDATE-NEW-TEXT',
     newText: string
 }*/
 
-export type ActionsTypes = AddPostActionType | ChangeNewTextActionType
+export type ActionsTypes = AddPostActionType | ChangeNewTextActionType | sendMessageType | updateNewMessageBodyType
 
 
 
