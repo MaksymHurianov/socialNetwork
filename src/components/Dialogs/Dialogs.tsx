@@ -8,19 +8,20 @@ import {
 
     StoreType,
 
-} from "../../redux/state";
+} from "../../redux/store";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
+import {AppStateType} from "../../redux/redux-store";
 
 
 type DialogsPropsType={
-
-    store: StoreType
+    dispatch: (action: ActionsTypes)=>void
+    store: AppStateType
 
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    let state = props.store.getState().dialogsPage
+    let state = props.store.dialogsPage
 
 
     let dialogsElements = state.dialogs.map( (d) => <DialogItem name={d.name} id={d.id}/>)
@@ -36,11 +37,11 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
     let messagesElements = state.messages.map( (m) => <Message message = {m.message}/>)
     let newMessageBody = state.newMessageBody
     let onSendMessageClick = () =>{
-        props.store.dispatch(sendMessageCreator())
+        props.dispatch(sendMessageCreator())
     }
     let onNewMessageChange = (e:ChangeEvent<HTMLTextAreaElement>) =>{
         let body = e.target.value
-        props.store.dispatch(updateNewMessageBodyCreator(body))
+        props.dispatch(updateNewMessageBodyCreator(body))
     }
 
     return (
