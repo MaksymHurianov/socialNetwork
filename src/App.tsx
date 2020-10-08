@@ -7,15 +7,20 @@ import Dialogs from "./components/Dialogs/Dialogs";
 import  {BrowserRouter, Route} from "react-router-dom";
 import {ActionsTypes, RootStateType, StoreType} from "./redux/store";
 import {AppStateType} from "./redux/redux-store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import {Store} from "redux";
+/*
 
 type AppPropsType = {
  //   state: RootStateType
-    dispatch: (action: ActionsTypes)=>void
-    store: AppStateType
+   // dispatch: (action: ActionsTypes)=>void
+  //  store: AppStateType
+    store:Store
 }
+*/
 
 
-const App: React.FC<AppPropsType> = (props) => {
+const App = () => {
 
 
   return (
@@ -29,11 +34,9 @@ const App: React.FC<AppPropsType> = (props) => {
             {/*   <Route path='/profile' component={Profile}/>*/}
 
             <Route path='/dialogs'
-                   render={()  => <Dialogs store={props.store} dispatch={props.dispatch}/>}/>
+                   render={()  => <DialogsContainer />}/>
             <Route path='/profile'
-                   render={() => <Profile state = {props.store.profilePage}
-
-                                          dispatch={props.dispatch}/>}/>
+                   render={() => <Profile />}/>
 
           </div>
 

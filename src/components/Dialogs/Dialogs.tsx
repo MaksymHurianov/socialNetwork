@@ -14,17 +14,20 @@ import {AppStateType} from "../../redux/redux-store";
 
 
 type DialogsPropsType={
-    dispatch: (action: ActionsTypes)=>void
-    store: AppStateType
+    //dispatch: (action: ActionsTypes)=>void
+    //store: AppStateType
+    updateNewMessageBody:any
+    sendMessage:any
+    dialogsPage:any
 
 }
 
 const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    let state = props.store.dialogsPage
+    let state = props.dialogsPage
 
 
-    let dialogsElements = state.dialogs.map( (d) => <DialogItem name={d.name} id={d.id}/>)
+    let dialogsElements = state.dialogs.map( (d:any) => <DialogItem name={d.name} id={d.id}/>)
 
     /*   [
            <DialogItem name={dialogs[0].name} id={dialogs[0].id}/>,
@@ -34,14 +37,15 @@ const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
 
 
-    let messagesElements = state.messages.map( (m) => <Message message = {m.message}/>)
+    let messagesElements = state.messages.map( (m:any) => <Message message = {m.message}/>)
     let newMessageBody = state.newMessageBody
     let onSendMessageClick = () =>{
-        props.dispatch(sendMessageCreator())
+        props.sendMessage()
     }
     let onNewMessageChange = (e:ChangeEvent<HTMLTextAreaElement>) =>{
         let body = e.target.value
-        props.dispatch(updateNewMessageBodyCreator(body))
+        props.updateNewMessageBody(body)
+
     }
 
     return (

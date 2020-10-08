@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import  {RootStateType, StoreType} from "./redux/store";
 import './index.css';
 import store from "./redux/redux-store";
+import StoreContext, {Provider} from "./StoreContext";
 
 
 
@@ -13,7 +14,9 @@ function rerenderEntireTree(state:RootStateType) {
 
     return (
         ReactDOM.render(
-            <App  dispatch={store.dispatch.bind(store)} store={store.getState()} />, document.getElementById('root')
+            <Provider store={store}>
+                <App/>
+            </Provider>, document.getElementById('root')
         )
     )
 }
