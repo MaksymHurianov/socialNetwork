@@ -1,4 +1,4 @@
-import {ActionsTypes, DialogsPageType} from "./store";
+/*import {ActionsTypes, DialogsPageType, MessageType} from "./store";*/
 
 const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY"
 const SEND_MESSAGE = "SEND-MESSAGE"
@@ -23,16 +23,39 @@ let initialState= {
 
 }
 
-const dialogsReducer = (state:DialogsPageType=initialState, action:ActionsTypes) => {
+type DialogsPageType={
+    messages: Array<MessageType>
+    dialogs: Array<DialogType>
+    newMessageBody: string
+}
+
+type MessageType={
+    id: number
+    message: string
+}
+type DialogType={
+    id: number
+    name: string
+}
+
+const dialogsReducer = (state:DialogsPageType=initialState, action:DialogsReducerType) => {
+
+    let stateCopy
     switch (action.type){
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.body
-            return state
+            return {
+                ...state,
+                newMessageBody: action.body
+
+            }
         case SEND_MESSAGE:
             let body = state.newMessageBody
-            state.newMessageBody = ""
-            state.messages.push({id:6, message:body})
-            return state
+            return  {
+                ...state,
+                newMessageBody: "",
+                messages: [...state.messages, {id:6, message:body}]
+            }
+
         default:
             return state
     }
@@ -56,5 +79,13 @@ export let sendMessageCreator = () => {
 export let updateNewMessageBodyCreator = (body:string) =>{
     return {type:UPDATE_NEW_MESSAGE_BODY, body:body} as const
 }
+type SendMessageCreatorType = {
+    type: typeof SEND_MESSAGE
+}
+type UpdateNewMessageBodyCreatorType = {
+    type: typeof UPDATE_NEW_MESSAGE_BODY
+    body: string
+}
+export type DialogsReducerType = SendMessageCreatorType | UpdateNewMessageBodyCreatorType
 
 export default dialogsReducer
