@@ -1,53 +1,40 @@
 import React from "react";
 import styles from "./users.module.css";
+import userPhoto from "../../assets/images/149071.png";
 import {UsersType} from "../../redux/users-reduser";
-import axios from 'axios'
-import userPhoto from '../../assets/images/149071.png'
 
-
-type UsersPropsType = {
+type PureUsersType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
     users: Array<UsersType>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    setUsers: (users: Array<UsersType>) => void
+    onPageChanged: (pageNumber:number) => void
+    unfollow: (userId:number) => void
+    follow: (userId:number) => void
 }
 
-type PhotosType = {
-    small: string
-    large: string
-}
+let Users = (props:PureUsersType) => {
 
-type ItemsType = {
-    name: string,
-    id: number,
-    photos: PhotosType
-    status: string | null
-    followed: boolean
-}
-
-type UsersResponseType = {
-    items: Array<ItemsType>
-    totalCount: number
-    error: string | null
-}
-
-
-
-let Users = (props: UsersPropsType) => {
-    let getUsers = () => {
-        if (props.users.length === 0) {
-
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then((response) => {
-                props.setUsers(response.data.items)
-            })
-
-
-        }
+    let pagesCount = Math.ceil(props.totalUsersCount /props.pageSize)
+    let pages = []
+    for(let i=1; i <= pagesCount; i++){
+        pages.push(i)
     }
 
-
     return <div>
-        <button onClick={getUsers}>Get Users</button>
+        <div>
+
+            {pages.map(p => {
+
+                return <span className={
+                    //this.props.currentPage === p && styles.selectedPage
+                   props.currentPage === p ? styles.selectedPage : ''
+                }
+                             onClick={() => props.onPageChanged(p)}>{p}</span>
+            })}
+
+        </div>
+
         {
             props.users.map((u) => <div key={u.id}>
                 <span>
@@ -81,5 +68,4 @@ let Users = (props: UsersPropsType) => {
         }
     </div>
 }
-
 export default Users

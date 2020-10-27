@@ -1,29 +1,32 @@
-
-import {AppStateType} from "./redux-store";
-import {addPostActionCreator} from "./profile-reducer";
-
 const FOLLOW = "FOLLOW" as const
 const UNFOLLOW = 'UNFOLLOW' as const
 const SET_USERS = "SET-USERS" as const
+const SET_CURRENT_PAGE = "SET-CURRENT-PAGE" as const
+const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT" as const
 
 let initialState = {
     users: [ ],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 type InitialStateType = {
     users: Array<UsersType>
+    pageSize: number,
+    totalUsersCount: number
+    currentPage: number
 }
 
-type LocationType = {
-    city: string
-    country: string
+type PhotosType = {
+    small: string
+    large: string
 }
 export type UsersType = {
     id: number
     followed: boolean
-    photoUrl: string
-    fullName: string
-    status: string
-    location: LocationType
+    photos: PhotosType
+    name: string
+    status: string | null
 }
 
 
@@ -51,7 +54,11 @@ const usersReducer = (state:InitialStateType=initialState, action:UsersReducerAc
                 })
                 }
         case SET_USERS:
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        case SET_CURRENT_PAGE:
+            return {...state, currentPage: action.currentPage }
+        case SET_TOTAL_USERS_COUNT:
+            return {...state, totalUsersCount: action.count }
         default:
             return state
 
@@ -74,6 +81,10 @@ export let unfollowAC = (userId:number) =>{
 
 export const setUsersAC = (users:Array<UsersType>) => ({type: SET_USERS, users})
 
+export let setCurrentPageAC = (currentPage:number) => ({type: SET_CURRENT_PAGE, currentPage: currentPage})
+
+export let setTotalUsersCountAC = (totalUsersCount:number) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
+
 
 
 type FollowActionType = {
@@ -84,11 +95,19 @@ type UnfollowActionType = {
     type: typeof UNFOLLOW,
     userId: number
 }
-
 type SetUsersACActionType = {
     type: typeof SET_USERS,
     users: Array<UsersType>
 }
-export type UsersReducerActionType = FollowActionType | UnfollowActionType | SetUsersACActionType
+type setCurrentPageActionType = {
+    type: typeof SET_CURRENT_PAGE,
+    currentPage: number
+}
+type setTotalUsersCountActionType = {
+    type: typeof SET_TOTAL_USERS_COUNT,
+    count: number
+}
+
+export type UsersReducerActionType = FollowActionType | UnfollowActionType | SetUsersACActionType | setCurrentPageActionType | setTotalUsersCountActionType
 
 export default usersReducer
