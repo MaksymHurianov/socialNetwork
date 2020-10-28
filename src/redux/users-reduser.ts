@@ -3,18 +3,21 @@ const UNFOLLOW = 'UNFOLLOW' as const
 const SET_USERS = "SET-USERS" as const
 const SET_CURRENT_PAGE = "SET-CURRENT-PAGE" as const
 const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT" as const
+const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING" as const
 
 let initialState = {
     users: [ ],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: true,
 }
 type InitialStateType = {
     users: Array<UsersType>
-    pageSize: number,
+    pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: Boolean
 }
 
 type PhotosType = {
@@ -59,6 +62,8 @@ const usersReducer = (state:InitialStateType=initialState, action:UsersReducerAc
             return {...state, currentPage: action.currentPage }
         case SET_TOTAL_USERS_COUNT:
             return {...state, totalUsersCount: action.count }
+        case TOGGLE_IS_FETCHING:
+            return {...state, isFetching: action.isFetching }
         default:
             return state
 
@@ -85,6 +90,8 @@ export let setCurrentPageAC = (currentPage:number) => ({type: SET_CURRENT_PAGE, 
 
 export let setTotalUsersCountAC = (totalUsersCount:number) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
 
+export let toggleIsFetchingAC = (isFetching:boolean) => ({type: TOGGLE_IS_FETCHING, isFetching})
+
 
 
 type FollowActionType = {
@@ -107,7 +114,11 @@ type setTotalUsersCountActionType = {
     type: typeof SET_TOTAL_USERS_COUNT,
     count: number
 }
+type toggleIsFetchingActionType = {
+    type: typeof TOGGLE_IS_FETCHING,
+    isFetching: boolean
+}
 
-export type UsersReducerActionType = FollowActionType | UnfollowActionType | SetUsersACActionType | setCurrentPageActionType | setTotalUsersCountActionType
+export type UsersReducerActionType = FollowActionType | UnfollowActionType | SetUsersACActionType | setCurrentPageActionType | setTotalUsersCountActionType | toggleIsFetchingActionType
 
 export default usersReducer
