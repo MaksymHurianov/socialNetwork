@@ -17,7 +17,7 @@ type InitialStateType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    isFetching: Boolean
+    isFetching: boolean
 }
 
 type PhotosType = {
@@ -34,7 +34,7 @@ export type UsersType = {
 
 
 
-const usersReducer = (state:InitialStateType=initialState, action:UsersReducerActionType) => {
+const usersReducer = (state:InitialStateType=initialState, action:UsersReducerActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -70,27 +70,27 @@ const usersReducer = (state:InitialStateType=initialState, action:UsersReducerAc
     }
 }
 
-export let followAC = (userId:number)  => {
+export let follow = (userId:number)  => {
     return {
         type: FOLLOW,
         userId: userId
     }
 }
 
-export let unfollowAC = (userId:number) =>{
+export let unfollow = (userId:number) =>{
     return {
         type: UNFOLLOW,
         userId: userId
     }
 }
 
-export const setUsersAC = (users:Array<UsersType>) => ({type: SET_USERS, users})
+export const setUsers = (users:Array<UsersType>) => ({type: SET_USERS, users})
 
-export let setCurrentPageAC = (currentPage:number) => ({type: SET_CURRENT_PAGE, currentPage: currentPage})
+export let setCurrentPage = (currentPage:number) => ({type: SET_CURRENT_PAGE, currentPage: currentPage})
 
-export let setTotalUsersCountAC = (totalUsersCount:number) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
+export let setTotalUsersCount = (totalUsersCount:number) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
 
-export let toggleIsFetchingAC = (isFetching:boolean) => ({type: TOGGLE_IS_FETCHING, isFetching})
+export let toggleIsFetching = (isFetching:boolean) => ({type: TOGGLE_IS_FETCHING, isFetching})
 
 
 

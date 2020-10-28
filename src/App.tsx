@@ -40,7 +40,7 @@ const App = () => {
               <Route path='/profile'
                      render={() => <Profile/>}/>
               <Route path='/users'
-                     render={() => <UsersContainer/>}/>
+                     render={() => <UsersContainer />}/>
           </div>
 
         </div>
