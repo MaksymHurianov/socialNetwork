@@ -5,20 +5,14 @@ import {
     setCurrentPage, setTotalUsersCount,
     setUsers, toggleIsFetching,
     unfollow,
-    UsersReducerActionType,
     UsersType
 } from "../../redux/users-reduser";
 import {AppStateType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import axios from "axios";
 import Users from "./PureUsers";
 import Preloader from "../common/perloader/Preloader";
-import {RootStateType} from "../../redux/store";
-
-type UsersPropsType = {
 
 
-}
 type PropsTypes = MapDispatchType & MapStateType
 
 class UsersAPIContainer extends React.Component<PropsTypes> {

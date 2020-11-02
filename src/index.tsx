@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import  {RootStateType, StoreType} from "./redux/store";
 import './index.css';
 import store from "./redux/redux-store";
 import {Provider} from "react-redux";

@@ -2,22 +2,23 @@ import React from "react";
 import styles from "./users.module.css";
 import userPhoto from "../../assets/images/149071.png";
 import {UsersType} from "../../redux/users-reduser";
+import {NavLink} from "react-router-dom";
 
 type PureUsersType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
     users: Array<UsersType>
-    onPageChanged: (pageNumber:number) => void
-    unfollow: (userId:number) => void
-    follow: (userId:number) => void
+    onPageChanged: (pageNumber: number) => void
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
 }
 
-let Users = (props:PureUsersType) => {
+let Users = (props: PureUsersType) => {
 
-    let pagesCount = Math.ceil(props.totalUsersCount /props.pageSize)
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
     let pages = []
-    for(let i=1; i <= pagesCount; i++){
+    for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
 
@@ -28,7 +29,7 @@ let Users = (props:PureUsersType) => {
 
                 return <span className={
                     //this.props.currentPage === p && styles.selectedPage
-                   props.currentPage === p ? styles.selectedPage : ''
+                    props.currentPage === p ? styles.selectedPage : ''
                 }
                              onClick={() => props.onPageChanged(p)}>{p}</span>
             })}
@@ -39,7 +40,10 @@ let Users = (props:PureUsersType) => {
             props.users.map((u) => <div key={u.id}>
                 <span>
                     <div>
-                        <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.userPhoto}/>
+                         <NavLink to={'/profile/' + u.id}>
+                             <img src={u.photos.small != null ? u.photos.small : userPhoto}
+                                  className={styles.userPhoto}/>
+                             </NavLink>
                     </div>
                     <div>
                         {u.followed

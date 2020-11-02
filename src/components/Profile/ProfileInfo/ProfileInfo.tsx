@@ -1,7 +1,11 @@
 import React from 'react';
 import classes from './ProfileInfo.module.css';
+import Preloader from "../../common/perloader/Preloader";
 
-const ProfileInfo = () => {
+const ProfileInfo = (props:any) => {
+    if (!props.profile){
+        return <Preloader/>
+    }
     return (
         <div>
 
@@ -9,6 +13,7 @@ const ProfileInfo = () => {
                 <img src='https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'/>
             </div>
             <div className={classes.discriptionBlock}>
+                <img src={props.profile.photos.large}/>
                 ava+description
             </div>
         </div>
