@@ -1,3 +1,6 @@
+import {authAPI} from "../api/api";
+import {Dispatch} from "react";
+
 const SET_USER_DATA = "SET-USER-DATA"
 
 let initialState = {
@@ -6,8 +9,22 @@ let initialState = {
     login: null,
     isAuth: false
 }
-
-const authReducer = (state=initialState, action:any) => {
+type authReducerActionType = {
+    type:typeof SET_USER_DATA
+    data: dataType
+}
+type dataType = {
+    userId:number
+    email: string
+    login: string
+}
+type initialStateType = {
+    userId: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
+}
+const authReducer = (state=initialState, action:authReducerActionType):any => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
@@ -19,9 +36,18 @@ const authReducer = (state=initialState, action:any) => {
             return state
     }
 }
-// @ts-ignore???
-export const setAuthUserData = (userId:any, email:any, login:any) => ({
+
+export const setAuthUserData = (userId:number, email:string, login:string) => ({
     type: SET_USER_DATA,
     data: {userId, email, login}
 } )
+export const getAuthUserData = () => (dispatch: Dispatch<any>) => {
+    authAPI.me()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                let {id, login, email} = response.data.data
+                dispatch(setAuthUserData(id, email, login))
+            }
+        })
+}
 export default authReducer
